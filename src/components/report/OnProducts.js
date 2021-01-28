@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import MaterialTable from 'material-table';
 
-const baseURL = "https://estoquapp.herokuapp.com/api";
+const baseURL = "https://localhost:5001/api/v2.0/";
 
 export default function OnProducts() {
 
@@ -111,9 +111,9 @@ export default function OnProducts() {
             }}
             data={query =>
                 new Promise((resolve, reject) => {
-                    let url = baseURL+ '/Product/RunningLow?'
-                    url += 'per_page=' + query.pageSize
-                    url += '&page=' + (query.page + 1)
+                    let url = baseURL+ 'Product?RunningLow=true'
+                    url += '&PageSize=' + query.pageSize
+                    url += '&PageNo=' + (query.page + 1)
                     fetch(url)
                         .then(response => response.json())
                         .then(result => {

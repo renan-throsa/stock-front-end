@@ -2,7 +2,7 @@
 import MaterialTable from 'material-table';
 import Alert from '@material-ui/lab/Alert';
 
-const URL = "https://estoquapp.herokuapp.com/api/Product";
+let URL = 'https://estoquapp.herokuapp.com/api/Product';
 
 function renderProductsTable(categories, suppliers, handleRowAdd, handleRowUpdate, iserror, errorMessages) {
     const columns =

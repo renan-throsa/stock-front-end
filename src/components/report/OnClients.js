@@ -3,7 +3,7 @@ import MaterialTable from 'material-table';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import PaymentIcon from '@material-ui/icons/Payment';
 
-const baseURL = "https://estoquapp.herokuapp.com/api";
+const baseURL = "https://localhost:5001/api/v2.0/";
 export default function OnClients(props) {
     const columns =
         [
@@ -123,9 +123,9 @@ export default function OnClients(props) {
             }}
             data={query =>
                 new Promise((resolve, reject) => {
-                    let url = baseURL+ '/Client/Inactive?'
-                    url += 'per_page=' + query.pageSize
-                    url += '&page=' + (query.page + 1)
+                    let url = baseURL+ 'Client?Status=0'
+                    url += '&PageSize=' + query.pageSize
+                    url += '&PageNo=' + (query.page + 1)
                     fetch(url)
                         .then(response => response.json())
                         .then(result => {

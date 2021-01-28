@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import MaterialTable from 'material-table';
 
-const URL = "https://estoquapp.herokuapp.com/api/Payment?";
+let URL = "https://estoquapp.herokuapp.com/api/Payment?";
 
 const columns =
     [
