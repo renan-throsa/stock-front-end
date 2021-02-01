@@ -4,7 +4,7 @@ import Alert from '@material-ui/lab/Alert';
 import Api from '../../services/Api'
 import { isTitleValid } from '../../validators/Validator'
 
-const baseURL = ""
+
 
 function renderProductsTable(handleRowAdd, handleRowUpdate, iserror, errorMessages) {
     const columns =
@@ -117,8 +117,7 @@ function renderProductsTable(handleRowAdd, handleRowUpdate, iserror, errorMessag
                 }}
                 data={query =>
                     new Promise((resolve, reject) => {
-                        let api = new Api('Category');
-                        api.Get(query)
+                        new Api('Category').Get(query.pageSize, query.page)
                             .then(result => {
                                 resolve({
                                     data: operations(query, result.data),
@@ -151,24 +150,8 @@ function Category() {
     const [errorMessages, setErrorMessages] = useState([]);
     const [iserror, setIserror] = useState(false);
 
-    const isOk = (response) => {
-        if (response !== null && response.ok) {
-            return response;
-        } else {
-            throw new Error(response.statusText);
-        }
-    }
-
-
     const handleRowAdd = (newData, resolve) => {
-
-        fetch(baseURL, {
-            method: 'Post',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify(newData)
-        })
-            .then(res => isOk(res))
-            .then(response => response.json())
+        new Api('Category').Post(newData)
             .then(product => {
                 let dataToAdd = [...data];
                 dataToAdd.push(product);
@@ -183,19 +166,11 @@ function Category() {
                 resolve()
             })
 
-
-
     }
 
     const handleRowUpdate = (newData, oldData, resolve) => {
-        fetch(baseURL,
-            {
-                method: 'Put',
-                headers: { 'Content-type': 'application/json' },
-                body: JSON.stringify(newData)
-            })
-            .then(res => isOk(res))
-            .then(response => response.json())
+        let api = new Api('Category');
+        api.Put(newData)
             .then(product => {
                 const dataUpdate = [...data];
                 const index = oldData.tableData.id;
@@ -210,8 +185,6 @@ function Category() {
                 setIserror(true)
                 resolve()
             })
-
-
     }
 
     return (renderProductsTable(handleRowAdd, handleRowUpdate, iserror, errorMessages));

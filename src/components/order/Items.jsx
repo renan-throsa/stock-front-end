@@ -7,6 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Api from '../../services/Api'
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -45,14 +46,12 @@ export default function Items(props) {
     const [items, setItems] = React.useState([]);
 
     useEffect(() => {
-    /*The last line with an array is necessary or You'll get a
-     * 'React Hook useEffect has a missing dependency: 'props.orderId'.
-     * Either include it or remove the dependency array.'*/
-        fetch(`/api/Item/${props.orderId}`)
-            .then(res => isOk(res))
-            .then(response => response.json())
-            .then(data => { setItems(data) })
-            .catch(err => console.log(err));
+        /*The last line with an array is necessary or You'll get a
+         * 'React Hook useEffect has a missing dependency: 'props.orderId'.
+         * Either include it or remove the dependency array.'*/
+        let api = new Api(`Order/Item/${props.orderId}`);
+        api.GetList().then(data => { setItems(data) })
+
     }, [props.orderId]);
 
     return (

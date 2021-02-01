@@ -3,8 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Alert from '@material-ui/lab/Alert';
+import Api from '../../services/Api'
 
-const URL = "https://estoquapp.herokuapp.com/api/Payment";
 
 const useInputStyles = makeStyles((theme) => ({
     text: {
@@ -42,16 +42,8 @@ export default function Payment(props) {
             clientId: Number(clientId),
             value: Number(value)
         }
-
-        fetch(URL, {
-            method: 'Post',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify(payment)
-        })
-            .then(res => isOk(res))
-            .then(response => response.json())
+        new Api('Payment').Post(payment)
             .then(payment => {
-                console.log(payment);
                 setAmount(amount - value);
                 setValue('');
                 setSuccessMessages('Pagamento enviado com sucesso!')
@@ -68,21 +60,11 @@ export default function Payment(props) {
 
     }
 
-    const isOk = (response) => {
-        if (response !== null && response.ok) {
-            return response;
-        } else {
-            throw new Error(response.statusText);
-        }
-    }
-
     useEffect(() => {
         /*The last line with an array is necessary or You'll get a 
          * 'React Hook useEffect has a missing dependency: 'props.orderId'. 
          * Either include it or remove the dependency array.'*/
-        fetch(`${URL}/${clientId}`)
-            .then(res => isOk(res))
-            .then(response => response.json())
+        new Api(`Payment${clientId}`)
             .then(data => { setAmount(data.debt) })
             .catch(err => console.log(err));
     }, [clientId]);

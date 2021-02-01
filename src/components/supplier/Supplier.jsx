@@ -4,7 +4,6 @@ import Alert from '@material-ui/lab/Alert';
 import Api from '../../services/Api'
 import { isPhoneNumberValid, isNameValid, isEmailValid } from '../../validators/Validator'
 
-const baseURL = "api/Supplier";
 function renderProductsTable(handleRowAdd, handleRowUpdate, iserror, errorMessages) {
     const columns =
         [
@@ -107,7 +106,7 @@ function renderProductsTable(handleRowAdd, handleRowUpdate, iserror, errorMessag
                 data={query =>
                     new Promise((resolve, reject) => {
                         let api = new Api('Supplier');
-                        api.Get(query)
+                        api.Get(query.pageSize, query.page)
                             .then(result => {
                                 resolve({
                                     data: operations(query, result.data),
@@ -140,27 +139,12 @@ function Supplier() {
     const [errorMessages, setErrorMessages] = useState([]);
     const [iserror, setIserror] = useState(false);
 
-    const isOk = (response) => {
-        if (response !== null && response.ok) {
-            return response;
-        } else {
-            throw new Error(response.statusText);
-        }
-    }
-
 
     const handleRowAdd = (newData, resolve) => {
-
-        fetch(baseURL, {
-            method: 'Post',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify(newData)
-        })
-            .then(res => isOk(res))
-            .then(response => response.json())
-            .then(product => {
+        new Api('Supplier').Post(newData)
+            .then(supplier => {
                 let dataToAdd = [...data];
-                dataToAdd.push(product);
+                dataToAdd.push(supplier);
                 setData(dataToAdd);
                 resolve()
                 setErrorMessages([])
@@ -172,23 +156,14 @@ function Supplier() {
                 resolve()
             })
 
-
-
     }
 
     const handleRowUpdate = (newData, oldData, resolve) => {
-        fetch(baseURL,
-            {
-                method: 'Put',
-                headers: { 'Content-type': 'application/json' },
-                body: JSON.stringify(newData)
-            })
-            .then(res => isOk(res))
-            .then(response => response.json())
-            .then(product => {
+        new Api('Supplier').Put(newData)
+            .then(supplier => {
                 const dataUpdate = [...data];
                 const index = oldData.tableData.id;
-                dataUpdate[index] = product;
+                dataUpdate[index] = supplier;
                 setData([...dataUpdate]);
                 resolve()
                 setIserror(false)

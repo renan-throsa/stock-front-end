@@ -1,8 +1,9 @@
 ﻿import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 import Alert from '@material-ui/lab/Alert';
+import Api from '../../services/Api'
+import { isCodeValid, isNameValid } from '../../validators/Validator'
 
-let URL = 'https://estoquapp.herokuapp.com/api/Product';
 
 function renderProductsTable(categories, suppliers, handleRowAdd, handleRowUpdate, iserror, errorMessages) {
     const columns =
@@ -10,12 +11,12 @@ function renderProductsTable(categories, suppliers, handleRowAdd, handleRowUpdat
             { title: "id", field: "id", hidden: true },
             {
                 title: 'Descrição', field: 'description', type: 'string',
-                validate: rowData => ((rowData.description != null && rowData.description.length >= 5 && rowData.description.length <= 50)
+                validate: rowData => ((rowData.description != null && isNameValid(rowData.description))
                     ? true : '⚠️ Descrição deve ter entre 5 e 50 caracteres.')
             },
             {
-                title: 'Código', field: 'code', type: 'string', editable: 'never',
-                validate: rowData => ((rowData.code != null && rowData.code.length >= 9 && rowData.code.length <= 13)
+                title: 'Código', field: 'code', type: 'string',
+                validate: rowData => ((rowData.code != null && isCodeValid(rowData.code))
                     ? true : '⚠️ Código deve ter entre 9 e 13 dígitos.')
             },
             {
@@ -143,11 +144,8 @@ function renderProductsTable(categories, suppliers, handleRowAdd, handleRowUpdat
                     }
                 }}
                 data={query =>
-                    new Promise((resolve, reject) => {                        
-                        URL += '?per_page=' + query.pageSize
-                        URL += '&page=' + (query.page + 1)
-                        fetch(URL)
-                            .then(response => response.json())
+                    new Promise((resolve, reject) => {
+                        new Api('Product').Get(query.pageSize, query.page)
                             .then(result => {
                                 result.data = result.data.map((p) => { p.profit = p.salePrice - p.purchasePrice; return p; });
                                 return result;
@@ -158,7 +156,7 @@ function renderProductsTable(categories, suppliers, handleRowAdd, handleRowUpdat
                                     page: result.page - 1,
                                     totalCount: result.total
                                 })
-                            }).catch(err => console.log(err))
+                            })
                     })
                 }
                 editable={{
@@ -181,42 +179,28 @@ function renderProductsTable(categories, suppliers, handleRowAdd, handleRowUpdat
 function Product() {
     const [data, setData] = useState([]);
     const [categories, setCategories] = useState({});
-    const [suppliers, setsuppliers] = useState({});
+    const [suppliers, setSuppliers] = useState({});
     const [errorMessages, setErrorMessages] = useState([]);
     const [iserror, setIserror] = useState(false);
 
-    const isOk = (response) => {
-        if (response !== null && response.ok) {
-            return response;
-        } else {
-            console.log(response)
-            let resp = response.json();
-            console.log(resp.erros);
-            throw new Error(response.statusText);
-        }
-    }
-
     useEffect(() => {
-        fetch('/api/Category/All')
-            .then(res => isOk(res))
-            .then(response => response.json())
-            .then(data => {
-                data = data.reduce((result, category) => {
+        new Api('Category').Get()
+            .then(pagination => {
+                let entities = pagination.data.reduce((result, category) => {
                     result[category.id] = category.title;
                     return result;
                 }, {});
-                setCategories(data)
+
+                setCategories(entities)
             }).catch(err => console.log(err));
 
-        fetch('/api/Supplier/All')
-            .then(res => isOk(res))
-            .then(response => response.json())
-            .then(data => {
-                data = data.reduce((result, suppliers) => {
+        new Api('Supplier').Get()
+            .then(pagination => {
+                let entities = pagination.data.reduce((result, suppliers) => {
                     result[suppliers.id] = suppliers.name;
                     return result;
                 }, {});
-                setsuppliers(data)
+                setSuppliers(entities)
             }).catch(err => console.log(err));
 
     }, [])
@@ -226,13 +210,7 @@ function Product() {
         newData.categoryId = Number(newData.categoryId);
         newData.supplierId = Number(newData.supplierId);
 
-        fetch(URL, {
-            method: 'Post',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify(newData)
-        })
-            .then(res => isOk(res))
-            .then(response => response.json())
+        new Api('Product').Post(newData)
             .then(product => {
                 let dataToAdd = [...data];
                 dataToAdd.push(product);
@@ -252,23 +230,16 @@ function Product() {
     const handleRowUpdate = (newData, oldData, resolve) => {
         newData.categoryId = Number(newData.categoryId);
         newData.supplierId = Number(newData.supplierId);
-        fetch(URL,
-            {
-                method: 'Put',
-                headers: { 'Content-type': 'application/json' },
-                body: JSON.stringify(newData)
-            })
-            .then(res => isOk(res))
-            .then(response => response.json())
-            .then(product => {
-                const dataUpdate = [...data];
-                const index = oldData.tableData.id;
-                dataUpdate[index] = product;
-                setData([...dataUpdate]);
-                resolve()
-                setIserror(false)
-                setErrorMessages([])
-            })
+
+        new Api('Product').Put(newData).then(product => {
+            const dataUpdate = [...data];
+            const index = oldData.tableData.id;
+            dataUpdate[index] = product;
+            setData([...dataUpdate]);
+            resolve()
+            setIserror(false)
+            setErrorMessages([])
+        })
             .catch(error => {
                 setErrorMessages(["Não foi possível atualizar o produto. Erro no servidor."])
                 setIserror(true)

@@ -124,7 +124,7 @@ export default function OnClients(props) {
             data={query =>
                 new Promise((resolve, reject) => {
                     let api = new Api('Client?Status=0');
-                    api.Get(query)
+                    api.Get(query.pageSize, query.page)
                         .then(result => {                            
                             resolve({
                                 data: operations(query, result.data),

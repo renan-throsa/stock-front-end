@@ -19,7 +19,7 @@ const send = (data) => {
 
     fetch("https://localhost:5001/api/v2.0/Account/Login", requestOptions)
         .then(response => response.json())
-        .then(result => console.log(result))
+        .then(result => localStorage.setItem('token', result))
         .catch(error => console.log('error', error));
 }
 

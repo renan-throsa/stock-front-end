@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 import MaterialTable from 'material-table';
-
-const baseURL = "https://localhost:5001/api/v2.0/";
+import Api from '../../services/Api'
 
 export default function OnProducts() {
 
@@ -78,7 +77,7 @@ export default function OnProducts() {
             p.discount.toString().includes(query.search) ||
             p.profit.toString().includes(query.search)
 
-        );       
+        );
         //Sorting 
         if (query.orderBy != null) {
             let orderBy = query.orderBy.field;
@@ -97,7 +96,6 @@ export default function OnProducts() {
 
     return (
 
-
         <MaterialTable
             title="Sugestão de compra"
             columns={columns}
@@ -111,12 +109,8 @@ export default function OnProducts() {
             }}
             data={query =>
                 new Promise((resolve, reject) => {
-                    let url = baseURL+ 'Product?RunningLow=true'
-                    url += '&PageSize=' + query.pageSize
-                    url += '&PageNo=' + (query.page + 1)
-                    fetch(url)
-                        .then(response => response.json())
-                        .then(result => {
+                    new Api('Product?RunningLow=true')
+                        .Get(query.pageSize, query.page).then(result => {
                             result.data = result.data.map((p) => { p.profit = p.salePrice - p.purchasePrice; return p; });
                             return result;
                         })

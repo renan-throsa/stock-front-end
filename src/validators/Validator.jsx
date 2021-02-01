@@ -15,3 +15,7 @@ export function isTitleValid(title) {
 export function isAddressValid(address) {
     var exp = /^[\w\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]{10,100}$/g; return exp.test(address)
 }
+
+export function isCodeValid(code) {
+    var exp = /^\d{9,13}$/g; return exp.test(code)
+}

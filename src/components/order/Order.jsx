@@ -2,6 +2,7 @@
 import MaterialTable from 'material-table';
 import PaymentIcon from '@material-ui/icons/Payment';
 import Items from './Items';
+import Api from '../../services/Api'
 
 const columns =
     [
@@ -54,9 +55,9 @@ const localization = {
 }
 const operations = (query, data) => {
     //Searching      
-    data = data.filter(o =>        
+    data = data.filter(o =>
         o.client.name.toLowerCase().includes(query.search.toLowerCase()) ||
-        o.value.toString().includes(query.search) ||        
+        o.value.toString().includes(query.search) ||
         new Date(o.date).toLocaleDateString().includes(query.search)
     )
     //Sorting 
@@ -91,18 +92,15 @@ export default function Order(props) {
             }}
             data={query =>
                 new Promise((resolve, reject) => {
-                    let url = 'https://estoquapp.herokuapp.com/api/Order?'
-                    url += 'per_page=' + query.pageSize
-                    url += '&page=' + (query.page + 1)
-                    fetch(url)
-                        .then(response => response.json())
+                    let api = new Api('Order');
+                    api.Get(query)
                         .then(result => {
                             resolve({
                                 data: operations(query, result.data),
                                 page: result.page - 1,
                                 totalCount: result.total
                             })
-                        }).catch(err => console.log(err))
+                        })
                 })
             }
             actions={[

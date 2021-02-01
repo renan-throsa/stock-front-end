@@ -5,15 +5,7 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import PaymentIcon from '@material-ui/icons/Payment';
 import Api from '../../services/Api'
 import { isPhoneNumberValid, isNameValid, isAddressValid } from '../../validators/Validator'
-const baseURL = "https://estoquapp.herokuapp.com/api/Client";
 
-const isOk = (response) => {
-    if (response !== null && response.ok) {
-        return response;
-    } else {
-        throw Error(response.status);
-    }
-}
 
 const columns =
     [
@@ -105,13 +97,7 @@ export default function Client(props) {
 
 
     const handleRowAdd = (newData, resolve) => {
-        fetch(baseURL, {
-            method: 'Post',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify(newData)
-        })
-            .then(res => isOk(res))
-            .then(response => response.json())
+        new Api('Client').Post(newData)
             .then(product => {
                 let dataToAdd = [...data];
                 dataToAdd.push(product);
@@ -129,23 +115,16 @@ export default function Client(props) {
 
     const handleRowUpdate = (newData, oldData, resolve) => {
         newData.status = Number(newData.status);
-        fetch(baseURL,
-            {
-                method: 'Put',
-                headers: { 'Content-type': 'application/json' },
-                body: JSON.stringify(newData)
-            })
-            .then(res => isOk(res))
-            .then(response => response.json())
-            .then(product => {
-                const dataUpdate = [...data];
-                const index = oldData.tableData.id;
-                dataUpdate[index] = product;
-                setData([...dataUpdate]);
-                resolve()
-                setIserror(false)
-                setErrorMessages([])
-            })
+        let api = new Api('Client');
+        api.Put(newData).then(product => {
+            const dataUpdate = [...data];
+            const index = oldData.tableData.id;
+            dataUpdate[index] = product;
+            setData([...dataUpdate]);
+            resolve()
+            setIserror(false)
+            setErrorMessages([])
+        })
             .catch(error => {
                 setErrorMessages(`Não foi possível atualizar o cliente. ${error}`)
                 setIserror(true)
@@ -175,7 +154,7 @@ export default function Client(props) {
                 data={query =>
                     new Promise((resolve, reject) => {
                         let api = new Api('Client');
-                        api.Get(query)
+                        api.Get(query.pageSize, query.page)
                             .then(result => {
                                 resolve({
                                     data: operations(query, result.data),

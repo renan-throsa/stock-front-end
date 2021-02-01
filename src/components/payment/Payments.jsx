@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import MaterialTable from 'material-table';
+import Api from '../../services/Api'
 
-let URL = "https://estoquapp.herokuapp.com/api/Payment?";
 
 const columns =
     [
@@ -71,7 +71,7 @@ const operations = (query, data) => {
     return data;
 };
 
-export default function Client(props) {
+export default function Payments() {
     return (
         <MaterialTable
             title="Pagamentos"
@@ -85,18 +85,16 @@ export default function Client(props) {
                 }
             }}
             data={query =>
-                new Promise((resolve, reject) => {                    
-                    URL += 'per_page=' + query.pageSize
-                    URL += '&page=' + (query.page + 1)
-                    fetch(URL)
-                        .then(response => response.json())
+                new Promise((resolve, reject) => {
+                    let api = new Api('Payment');
+                    api.Get(query.pageSize, query.page)
                         .then(result => {
                             resolve({
                                 data: operations(query, result.data),
                                 page: result.page - 1,
                                 totalCount: result.total
                             })
-                        }).catch(err => console.log(err))
+                        })
                 })
             }
         />

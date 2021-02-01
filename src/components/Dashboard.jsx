@@ -16,7 +16,7 @@ import { mainListItems, secondaryListItems } from './listItems';
 import Container from '@material-ui/core/Container';
 import Switch from "@material-ui/core/Switch";
 import { orange, lightBlue, deepPurple, deepOrange } from "@material-ui/core/colors";
-import Routes from '../components/Routes'
+import Routes from './Routes'
 
 import { Link } from "react-router-dom";
 import ListItem from '@material-ui/core/ListItem';

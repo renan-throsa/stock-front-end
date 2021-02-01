@@ -6,6 +6,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Api from '../../services/Api'
 
 const useSelectStyles = makeStyles((theme) => ({
     formControl: {
@@ -85,12 +86,10 @@ export function ManualTabPanel(props) {
     }
 
     useEffect(() => {
-        fetch('/api/Category/All')
-            .then(res => isOk(res))
-            .then(response => response.json())
-            .then(data => { setCategories(data) })
+        new Api('Category').Get()
+            .then(result => { setCategories(result.data) })
             .catch(err => console.log(err));
-    }, []);
+    }, categories);
 
     useEffect(() => {
         /*React Hook useEffect contains a call to 'setDisabled'.
