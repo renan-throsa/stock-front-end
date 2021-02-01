@@ -3,17 +3,19 @@ import Buttom from "@material-ui/core/Button";
 import { TextField, Switch, FormControlLabel } from "@material-ui/core";
 
 const validateEmail = (email) => {
-    if (email.length < 5) {
+    var regex = /^([\w-]\.?)+@([\w-]+\.)+([A-Za-z]{2,4})+$/g;
+    if (!regex.test(email)) {
         return { valid: false, text: "Email inválido." }
     }
     else {
         return { valid: true, text: "" }
     }
 }
-
+     
 const validatePassword = (password) => {
-    if (password.length < 5) {
-        return { valid: false, text: "Senha inválida." }
+    var regex = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{6,20})/g;
+    if (!regex.test(password)) {
+        return { valid: false, text: "A senha precisa conter digito(s),letra(s) maúsculas e minúsculas e caracter(es) especial(ais)." }
     }
     else {
         return { valid: true, text: "" }

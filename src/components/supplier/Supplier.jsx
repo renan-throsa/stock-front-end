@@ -1,26 +1,27 @@
 ﻿import React, { useState } from 'react';
 import MaterialTable from 'material-table';
 import Alert from '@material-ui/lab/Alert';
+import Api from '../../services/Api'
+import { isPhoneNumberValid, isNameValid, isEmailValid } from '../../validators/Validator'
 
 const baseURL = "api/Supplier";
-
 function renderProductsTable(handleRowAdd, handleRowUpdate, iserror, errorMessages) {
     const columns =
         [
             { title: "id", field: "id", hidden: true },
             {
                 title: 'Nome', field: 'name', type: 'string',
-                validate: rowData => ((rowData.name != null && rowData.name.length >= 5 && rowData.name.length <= 50)
+                validate: rowData => ((rowData.name != null && isNameValid(rowData.name))
                     ? true : '⚠️ Nome deve ter entre 5 e 50 caracteres.')
             },
             {
                 title: 'Email', field: 'email', type: 'string',
-                validate: rowData => ((rowData.email != null && rowData.email.length >= 5 && rowData.email.length <= 50)
+                validate: rowData => ((rowData.email != null && isEmailValid(rowData.email))
                     ? true : '⚠️ Email deve ter entre 5 e 50 caracteres.')
             },
             {
                 title: 'Telefone', field: 'phoneNumber', type: 'string',
-                validate: rowData => ((rowData.phoneNumber != null && rowData.phoneNumber.length === 11)
+                validate: rowData => ((rowData.phoneNumber != null && isPhoneNumberValid(rowData.phoneNumber))
                     ? true : '⚠️ Número de telefone deve ter 11 dígitos.')
             }
         ];
@@ -105,18 +106,15 @@ function renderProductsTable(handleRowAdd, handleRowUpdate, iserror, errorMessag
                 }}
                 data={query =>
                     new Promise((resolve, reject) => {
-                        let url = 'api/Supplier?'
-                        url += 'per_page=' + query.pageSize
-                        url += '&page=' + (query.page + 1)
-                        fetch(url)
-                            .then(response => response.json())
+                        let api = new Api('Supplier');
+                        api.Get(query)
                             .then(result => {
                                 resolve({
                                     data: operations(query, result.data),
                                     page: result.page - 1,
                                     totalCount: result.total
                                 })
-                            }).catch(err => console.log(err))
+                            })
                     })
                 }
                 editable={{

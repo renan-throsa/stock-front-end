@@ -2,8 +2,8 @@
 import MaterialTable from 'material-table';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import PaymentIcon from '@material-ui/icons/Payment';
+import Api from '../../services/Api'
 
-const baseURL = "https://localhost:5001/api/v2.0/";
 export default function OnClients(props) {
     const columns =
         [
@@ -123,18 +123,15 @@ export default function OnClients(props) {
             }}
             data={query =>
                 new Promise((resolve, reject) => {
-                    let url = baseURL+ 'Client?Status=0'
-                    url += '&PageSize=' + query.pageSize
-                    url += '&PageNo=' + (query.page + 1)
-                    fetch(url)
-                        .then(response => response.json())
-                        .then(result => {
+                    let api = new Api('Client?Status=0');
+                    api.Get(query)
+                        .then(result => {                            
                             resolve({
                                 data: operations(query, result.data),
                                 page: result.page - 1,
                                 totalCount: result.total
                             })
-                        }).catch(err => console.log(err))
+                        })
                 })
             }
             actions={[

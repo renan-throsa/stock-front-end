@@ -3,7 +3,8 @@ import MaterialTable from 'material-table';
 import Alert from '@material-ui/lab/Alert';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import PaymentIcon from '@material-ui/icons/Payment';
-
+import Api from '../../services/Api'
+import { isPhoneNumberValid, isNameValid, isAddressValid } from '../../validators/Validator'
 const baseURL = "https://estoquapp.herokuapp.com/api/Client";
 
 const isOk = (response) => {
@@ -19,18 +20,18 @@ const columns =
         { title: "id", field: "id", hidden: true },
         {
             title: 'Nome', field: 'name', type: 'string',
-            validate: (rowData) => ((rowData.name != null && rowData.name.length >= 10 && rowData.name.length <= 50)
-                ? true : '⚠️ Nome deve ter entre 10 e 50 caracteres.')
+            validate: (rowData) => ((rowData.name != null && isNameValid(rowData.name))
+                ? true : '⚠️ Nome deve ter entre 5 e 50 caracteres.')
         },
         {
             title: 'Endereço', field: 'address', type: 'string',
-            validate: rowData => ((rowData.address != null && rowData.address.length >= 10 && rowData.address.length <= 100)
+            validate: rowData => ((rowData.address != null && isAddressValid(rowData.address))
                 ? true : '⚠️ Endereço deve ter entre 10 e 100 caracteres.')
         },
         {
             title: 'Telefone', field: 'phoneNumber', type: 'string',
-            validate: rowData => ((rowData.phoneNumber != null && rowData.phoneNumber.length === 11)
-                ? true : '⚠️ Número de telefone deve ter 11 dígitos.')
+            validate: rowData => ((rowData.phoneNumber != null && isPhoneNumberValid(rowData.phoneNumber))
+                ? true : '⚠️ O número deve deve estar no formato: (xx)xxxxx-xxxx.')
         },
         {
             title: 'Status', field: 'status', lookup: { 0: 'Inativo', 1: 'Ativo' }, editable: 'never'
@@ -173,18 +174,15 @@ export default function Client(props) {
                 }}
                 data={query =>
                     new Promise((resolve, reject) => {
-                        let url = 'api/Client?'
-                        url += 'per_page=' + query.pageSize
-                        url += '&page=' + (query.page + 1)
-                        fetch(url)
-                            .then(response => response.json())
+                        let api = new Api('Client');
+                        api.Get(query)
                             .then(result => {
                                 resolve({
                                     data: operations(query, result.data),
                                     page: result.page - 1,
                                     totalCount: result.total
                                 })
-                            }).catch(err => console.log(err))
+                            })
                     })
                 }
                 actions={[

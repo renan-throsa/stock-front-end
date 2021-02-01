@@ -1,8 +1,10 @@
 ﻿import React, { useState } from 'react';
 import MaterialTable from 'material-table';
 import Alert from '@material-ui/lab/Alert';
+import Api from '../../services/Api'
+import { isTitleValid } from '../../validators/Validator'
 
-const baseURL = "https://estoquapp.herokuapp.com/api/Category";
+const baseURL = ""
 
 function renderProductsTable(handleRowAdd, handleRowUpdate, iserror, errorMessages) {
     const columns =
@@ -10,7 +12,7 @@ function renderProductsTable(handleRowAdd, handleRowUpdate, iserror, errorMessag
             { title: "id", field: "id", hidden: true },
             {
                 title: 'Título', field: 'title', type: 'string',
-                validate: rowData => ((rowData.title != null && rowData.title.length >= 5 && rowData.title.length <= 25) ?
+                validate: rowData => ((rowData.title != null && isTitleValid(rowData.title)) ?
                     true : '⚠️ Título deve ter entre 5 e 25 caracteres')
             },
             {
@@ -115,18 +117,15 @@ function renderProductsTable(handleRowAdd, handleRowUpdate, iserror, errorMessag
                 }}
                 data={query =>
                     new Promise((resolve, reject) => {
-                        let url = 'api/Category?'
-                        url += 'per_page=' + query.pageSize
-                        url += '&page=' + (query.page + 1)
-                        fetch(url)
-                            .then(response => response.json())
+                        let api = new Api('Category');
+                        api.Get(query)
                             .then(result => {
                                 resolve({
                                     data: operations(query, result.data),
                                     page: result.page - 1,
                                     totalCount: result.total
                                 })
-                            }).catch(err => console.log(err))
+                            })
                     })
                 }
                 editable={{
