@@ -1,33 +1,46 @@
-import React from 'react'
+import React, { useState } from 'react';
+import Alert from '@material-ui/lab/Alert';
 import FormLogin from './FormLogin'
 import { Container, Typography } from "@material-ui/core";
 import 'fontsource-roboto';
+import Api from '../../services/Api'
 
-const baseURL = "https://estoqapi.herokuapp.com/api/v2.0/Account/Login";
 
-const send = (data) => {
-    console.log(data)
+export default function Login(props) {
+    const [errorMessages, setErrorMessages] = useState([]);
+    const [iserror, setIserror] = useState(false);
 
-    var headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Authorization', 'Basic ' + btoa(data.email + ':' + data.password));
+    const send = (data) => {
+        let api = new Api('Account/Login');
 
-    var requestOptions = {
-        method: 'POST',
-        headers: headers
-    };
+        api.Login({ "Email": data.email, "Password": data.password })
+            .then(result => {
+                localStorage.setItem('token', result);
+                setIserror(false);
+                setErrorMessages([]);
+                props.history.push('/')
+            })
+            .catch(error => {
+                console.log(error)
+                setErrorMessages(["Não foi possível fazer login. Erro no servidor."]);
+                setIserror(true);
+            })
+    }
 
-    fetch("https://localhost:5001/api/v2.0/Account/Login", requestOptions)
-        .then(response => response.json())
-        .then(result => localStorage.setItem('token', result))
-        .catch(error => console.log('error', error));
-}
-
-export default function Login() {
     return (
-        <Container component="article" maxWidth="sm">
-            <Typography variant="h3" align="center">Formulário de Login</Typography>
-            <FormLogin onSend={send} />
-        </Container>
+        <div>
+            {iserror &&
+                <Alert
+                    severity="error">
+                    {errorMessages.map((msg, i) => {
+                        return <div key={i}>{msg}</div>
+                    })}
+                </Alert>
+            }
+            <Container component="article" maxWidth="sm">
+                <Typography variant="h3" align="center">Formulário de Login</Typography>
+                <FormLogin onSend={send} />
+            </Container>
+        </div>
     )
 }

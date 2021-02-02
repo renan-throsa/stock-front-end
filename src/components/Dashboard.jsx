@@ -8,21 +8,15 @@ import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems, secondaryListItems, headerListItems } from './ListItems';
 import Container from '@material-ui/core/Container';
 import Switch from "@material-ui/core/Switch";
 import { orange, lightBlue, deepPurple, deepOrange } from "@material-ui/core/colors";
 import Routes from './Routes'
+import Button from '@material-ui/core/Button';
 
-import { Link } from "react-router-dom";
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import DashboardIcon from '@material-ui/icons/Dashboard';
 
 const drawerWidth = 240;
 
@@ -148,21 +142,15 @@ export default function Dashboard() {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <ListItem button component={Link} to="/">
-                            <ListItemIcon>
-                                <DashboardIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Estoque" />
-                        </ListItem>
+
+                        <Button color="inherit">Login</Button>
+                        <List>{headerListItems}</List>
+
                         <ThemeProvider theme={darkTheme}>
                             <div> Tema </div>
                             <Switch checked={darkState} onChange={handleThemeChange} />
                         </ThemeProvider>
-                        <IconButton color="inherit">
-                            <Badge badgeContent={4} color="secondary">
-                                <NotificationsIcon />
-                            </Badge>
-                        </IconButton>
+
                     </Toolbar>
                 </AppBar>
 

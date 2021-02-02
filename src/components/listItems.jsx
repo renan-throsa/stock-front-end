@@ -4,17 +4,21 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PeopleIcon from '@material-ui/icons/People';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import CategoryIcon from '@material-ui/icons/Category';
 import StoreIcon from '@material-ui/icons/Store';
 import PaymentIcon from '@material-ui/icons/Payment';
+
+
 import { Link } from "react-router-dom";
 
 export const mainListItems = (
     <div>
-       
+
         <ListItem button component={Link} to="/order">
             <ListItemIcon>
                 <ShoppingCartIcon />
@@ -82,3 +86,22 @@ export const secondaryListItems = (
         </ListItem>
     </div>
 );
+
+export const headerListItems = (
+    <div>
+        <ListItem button component={Link} to="/login">
+            <ListItemIcon>
+                <AccountCircleIcon />
+            </ListItemIcon>
+            <ListItemText primary="Login" />
+        </ListItem>
+        <ListItem button component={Link} to="/">
+            <ListItemIcon>
+                <DashboardIcon />
+            </ListItemIcon>
+            <ListItemText primary="Estoque" />
+        </ListItem>      
+
+    </div>
+);
+

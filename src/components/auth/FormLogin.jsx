@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import Buttom from "@material-ui/core/Button";
 import { TextField, Switch, FormControlLabel } from "@material-ui/core";
+import { isEmailValid, isPasswordValid } from '../../validators/Validator'
 
 const validateEmail = (email) => {
-    var regex = /^([\w-]\.?)+@([\w-]+\.)+([A-Za-z]{2,4})+$/g;
-    if (!regex.test(email)) {
+    if (!isEmailValid(email)) {
         return { valid: false, text: "Email inválido." }
     }
     else {
         return { valid: true, text: "" }
     }
 }
-     
+
 const validatePassword = (password) => {
-    var regex = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{6,20})/g;
-    if (!regex.test(password)) {
+    if (!isPasswordValid(password)) {
         return { valid: false, text: "A senha precisa conter digito(s),letra(s) maúsculas e minúsculas e caracter(es) especial(ais)." }
     }
     else {
@@ -47,6 +46,7 @@ export default function FormLogin(props) {
                 variant="outlined"
                 fullWidth
                 margin="normal"
+                type="e"
                 error={!emailerror.valid}
                 helperText={emailerror.text}
             />
@@ -57,6 +57,7 @@ export default function FormLogin(props) {
                 required
                 id="password-field"
                 label="Senha"
+                
                 value={password}
                 variant="outlined"
                 fullWidth

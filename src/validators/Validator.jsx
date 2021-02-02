@@ -8,6 +8,10 @@ export function isEmailValid(email) {
     var exp = /^([\w-]\.?)+@([\w-]+\.)+([A-Za-z]{2,4})+$/g; return exp.test(email)
 }
 
+export function isPasswordValid(password) {
+    var exp = /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{6,20})$/g; return exp.test(password)
+}
+
 export function isTitleValid(title) {
     var exp = /^[A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]{5,50}$/g; return exp.test(title)
 }
