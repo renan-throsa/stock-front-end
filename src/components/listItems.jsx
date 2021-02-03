@@ -12,7 +12,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import CategoryIcon from '@material-ui/icons/Category';
 import StoreIcon from '@material-ui/icons/Store';
 import PaymentIcon from '@material-ui/icons/Payment';
-
+import MenuItem from "@material-ui/core/MenuItem";
 
 import { Link } from "react-router-dom";
 
@@ -84,24 +84,6 @@ export const secondaryListItems = (
             </ListItemIcon>
             <ListItemText primary="Fim de ano" />
         </ListItem>
-    </div>
-);
-
-export const headerListItems = (
-    <div>
-        <ListItem button component={Link} to="/login">
-            <ListItemIcon>
-                <AccountCircleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Login" />
-        </ListItem>
-        <ListItem button component={Link} to="/">
-            <ListItemIcon>
-                <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Estoque" />
-        </ListItem>      
-
     </div>
 );
 

@@ -15,7 +15,16 @@ import Container from '@material-ui/core/Container';
 import Switch from "@material-ui/core/Switch";
 import { orange, lightBlue, deepPurple, deepOrange } from "@material-ui/core/colors";
 import Routes from './Routes'
-import Button from '@material-ui/core/Button';
+
+import { Link } from "react-router-dom";
+
+import MenuList from '@material-ui/core/MenuList';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 
 const drawerWidth = 240;
@@ -97,15 +106,22 @@ const useStyles = makeStyles((theme) => ({
     fixedHeight: {
         height: 240,
     },
+    navDisplayFlex: {
+        display: 'flex',
+        flexDirection: 'row',
+        padding: 0
+    },
 }));
 
 export default function Dashboard() {
     const classes = useStyles();
-    const [open, setOpen] = useState(true);
+    const [auth, setAuth] = useState(true);
+    const [open, setOpen] = useState(false);
     const [darkState, setDarkState] = useState(false);
     const palletType = darkState ? "dark" : "light";
     const mainPrimaryColor = darkState ? orange[500] : lightBlue[500];
     const mainSecondaryColor = darkState ? deepOrange[900] : deepPurple[500];
+
     const darkTheme = createMuiTheme({
         palette: {
             type: palletType,
@@ -143,8 +159,23 @@ export default function Dashboard() {
                             <MenuIcon />
                         </IconButton>
 
-                        <Button color="inherit">Login</Button>
-                        <List>{headerListItems}</List>
+                        <MenuList className={classes.navDisplayFlex}>
+                            <MenuItem button component={Link} to="/">
+                                <ListItemIcon>
+                                    <DashboardIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Estoque" />
+                            </MenuItem>
+                            <MenuItem button component={Link} to="/login">
+                                <ListItemIcon>
+                                    <AccountCircleIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Login" />
+                            </MenuItem>
+
+                        </MenuList>
+
+
 
                         <ThemeProvider theme={darkTheme}>
                             <div> Tema </div>
@@ -178,6 +209,6 @@ export default function Dashboard() {
 
                 </main>
             </div>
-        </ThemeProvider>
+        </ThemeProvider >
     );
 }

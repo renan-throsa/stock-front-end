@@ -2,7 +2,7 @@ export default class Api {
 
     constructor(endpoint) {
         this.endpoint = endpoint;
-        this.base_url = "https://localhost:5001/api/v2.0/";
+        this.base_url = "https://estoqapi.herokuapp.com/api/v2.0/";
     }
 
     Get(pageSize = 25, page = 0) {
