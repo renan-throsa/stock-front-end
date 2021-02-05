@@ -145,7 +145,7 @@ function renderProductsTable(categories, suppliers, handleRowAdd, handleRowUpdat
                 }}
                 data={query =>
                     new Promise((resolve, reject) => {
-                        new Api('Product').Get(query.pageSize, query.page)
+                        new Api('Product?').Get(query.pageSize, query.page)
                             .then(result => {
                                 result.data = result.data.map((p) => { p.profit = p.salePrice - p.purchasePrice; return p; });
                                 return result;

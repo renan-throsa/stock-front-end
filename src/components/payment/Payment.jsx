@@ -42,7 +42,7 @@ export default function Payment(props) {
             clientId: Number(clientId),
             value: Number(value)
         }
-        new Api('Payment').Post(payment)
+        new Api('Payment?').Post(payment)
             .then(payment => {
                 setAmount(amount - value);
                 setValue('');
@@ -64,9 +64,15 @@ export default function Payment(props) {
         /*The last line with an array is necessary or You'll get a 
          * 'React Hook useEffect has a missing dependency: 'props.orderId'. 
          * Either include it or remove the dependency array.'*/
-        new Api(`Payment${clientId}`)
+        new Api(`Client/${clientId}?`)
+            .Get()
             .then(data => { setAmount(data.debt) })
-            .catch(err => console.log(err));
+            .catch(error => {
+                setErrorMessages([`Não foi possível buscar os dados ao servidor. ${error}`])
+                setIserror(true);
+                setSuccessMessages('');
+                setIsmessage(false);
+            })
     }, [clientId]);
 
     useEffect(() => {

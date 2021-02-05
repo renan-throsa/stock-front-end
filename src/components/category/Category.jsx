@@ -117,7 +117,7 @@ function renderProductsTable(handleRowAdd, handleRowUpdate, iserror, errorMessag
                 }}
                 data={query =>
                     new Promise((resolve, reject) => {
-                        new Api('Category').Get(query.pageSize, query.page)
+                        new Api('Category?').Get(query.pageSize, query.page)
                             .then(result => {
                                 resolve({
                                     data: operations(query, result.data),

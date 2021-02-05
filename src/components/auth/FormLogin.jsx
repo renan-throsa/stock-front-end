@@ -46,7 +46,7 @@ export default function FormLogin(props) {
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                type="e"
+                type="email"
                 error={!emailerror.valid}
                 helperText={emailerror.text}
             />
@@ -57,7 +57,7 @@ export default function FormLogin(props) {
                 required
                 id="password-field"
                 label="Senha"
-                
+                type="password"
                 value={password}
                 variant="outlined"
                 fullWidth

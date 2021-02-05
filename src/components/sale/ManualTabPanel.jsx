@@ -12,7 +12,7 @@ const useSelectStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
-        width: '40ch',
+        width: '48ch',
     },
     selectEmpty: {
         marginTop: theme.spacing(2),
@@ -23,7 +23,7 @@ const useInputStyles = makeStyles((theme) => ({
     text: {
         '& > *': {
             margin: theme.spacing(1),
-            width: '40ch',
+            width: '48ch',
         },
     },
     button: {
@@ -36,21 +36,23 @@ const useInputStyles = makeStyles((theme) => ({
 export function ManualTabPanel(props) {
     const [disabled, setDisabled] = useState(true);
     const [categories, setCategories] = useState([]);
-    const [products, setProducts] = React.useState([]);
+    const [products, setProducts] = useState([]);
     const [currentCategory, setcurrentCategory] = useState('');
-    const [currentProduct, setcurrentProduct] = React.useState('');
+    const [currentProduct, setcurrentProduct] = useState('');
     const [price, setPrice] = useState('');
     const [quantity, setQuantity] = useState('');
     const [quantityAvailable, setQuantityAvailable] = useState('');
     const [quantityerror, setQuantityErrors] = useState({ quantity: { valid: true, text: "" } });
 
+    
+    const selectStyles = useSelectStyles();
+    const inputStyles = useInputStyles();
+
     const handleCategoryChange = (event) => {
         let categoryId = event.target.value;
         setcurrentCategory(categoryId)
-        fetch(`api/Product/ByCategory?id=${categoryId}`)
-            .then(res => isOk(res))
-            .then(response => response.json())
-            .then(data => { setProducts(data) })
+        new Api(`Category/${categoryId}/Product`).Get()
+            .then(result => { setProducts(result.data) })
             .catch(err => console.log(err));
     };
 
@@ -61,9 +63,6 @@ export function ManualTabPanel(props) {
         setPrice(p.salePrice);
         setQuantityAvailable(p.quantity);
     };
-
-    const selectStyles = useSelectStyles();
-    const inputStyles = useInputStyles();
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -77,19 +76,11 @@ export function ManualTabPanel(props) {
         props.onAdd({ productid, description, price, quantity, subtotal: price * quantity });
     }
 
-    const isOk = (response) => {
-        if (response !== null && response.ok) {
-            return response;
-        } else {
-            throw new Error(response.statusText);
-        }
-    }
-
     useEffect(() => {
         new Api('Category').Get()
             .then(result => { setCategories(result.data) })
             .catch(err => console.log(err));
-    }, categories);
+    }, [categories]);
 
     useEffect(() => {
         /*React Hook useEffect contains a call to 'setDisabled'.
@@ -109,13 +100,14 @@ export function ManualTabPanel(props) {
             <FormControl variant="outlined" className={selectStyles.formControl}>
                 <InputLabel id="demo-simple-select-label">Categoria</InputLabel>
                 <Select
+                    fullWidth
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={currentCategory}
                     onChange={handleCategoryChange}
                 >
                     {categories.map((category) =>
-                        <MenuItem value={category.id}>{category.title}</MenuItem>
+                        <MenuItem key={category.id} value={category.id}>{category.title}</MenuItem>
                     )}
 
                 </Select>
@@ -123,23 +115,26 @@ export function ManualTabPanel(props) {
             <FormControl variant="outlined" className={selectStyles.formControl}>
                 <InputLabel id="demo-simple-select-label">Produto</InputLabel>
                 <Select
+                    fullWidth
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={currentProduct}
                     onChange={handleProductChange}
                 >
                     {products.map((product) =>
-                        <MenuItem value={product.id}>{product.description}</MenuItem>
+                        <MenuItem key={product.id} value={product.id}>{product.description}</MenuItem>
                     )}
                 </Select>
             </FormControl>
             <TextField
+                fullWidth
                 disabled id="price"
                 value={price}
                 label="Preço"
                 variant="outlined"
             />
             <TextField
+                fullWidth
                 required type="number"
                 id="quantity"
                 label="Quantidade"

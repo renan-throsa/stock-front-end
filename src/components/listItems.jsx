@@ -1,18 +1,14 @@
-﻿import React from 'react';
-import ListItem from '@material-ui/core/ListItem';
+﻿import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PeopleIcon from '@material-ui/icons/People';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import CategoryIcon from '@material-ui/icons/Category';
 import StoreIcon from '@material-ui/icons/Store';
 import PaymentIcon from '@material-ui/icons/Payment';
-import MenuItem from "@material-ui/core/MenuItem";
 
 import { Link } from "react-router-dom";
 

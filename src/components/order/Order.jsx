@@ -92,7 +92,7 @@ export default function Order(props) {
             }}
             data={query =>
                 new Promise((resolve, reject) => {
-                    let api = new Api('Order');
+                    let api = new Api('Order?OrderBy=status desc');
                     api.Get(query)
                         .then(result => {
                             resolve({

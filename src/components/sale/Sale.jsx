@@ -2,19 +2,11 @@
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Alert from '@material-ui/lab/Alert';
+import Api from '../../services/Api'
 
 import { TableItem } from './TableItem';
 import { TabItem } from './TabItem';
 
-const baseURL = "api/Order";
-
-const isOk = (response) => {
-    if (response !== null && response.ok) {
-        return response;
-    } else {
-        throw Error(response.status);
-    }
-}
 
 
 export default function Sale(props) {
@@ -37,7 +29,18 @@ export default function Sale(props) {
     }));
 
     const onAdd = (product) => {
-        setProducts([...products, product]);
+        if (products.length === 0) {
+            setProducts([...products, product]);
+        } else {
+            for (let index = 0; index < products.length; index++) {
+                if (product.productid === products[index].productid) {
+                    setErrorMessages('Erro. Produto já está na lista de itens.');
+                    setIserror(true);
+                    return;
+                }
+                setProducts([...products, product]);
+            }
+        }
     }
 
     const handleSaveItems = () => {
@@ -49,17 +52,11 @@ export default function Sale(props) {
                 clientId: Number(clientId),
                 items: products.map(p => ({ 'ProductId': Number(p.productid), 'Quantity': Number(p.quantity) }))
             }
-            fetch(baseURL, {
-                method: 'Post',
-                headers: { 'Content-type': 'application/json' },
-                body: JSON.stringify(order)
-            })
-                .then(response => isOk(response))
-                .then(response => response.json())
-                .then(result => {                    
+            new Api('Order').Post(order)
+                .then(result => {
                     setProducts([]);
                     setErrorMessages([]);
-                    setSuccessMessages(`Pedido registrado com sucesso!. ${result.status}`);
+                    setSuccessMessages('Pedido registrado com sucesso!.');
                     setIserror(false);
                     setIsmessage(true);
                 }).catch(error => {
@@ -78,7 +75,7 @@ export default function Sale(props) {
     }
 
     const handleRowDelete = (oldData, resolve) => {
-        let newproducts = products.filter(p => p.code !== oldData.code);
+        let newproducts = products.filter(p => p.productid !== oldData.productid);
         setProducts(newproducts);
         resolve();
     }

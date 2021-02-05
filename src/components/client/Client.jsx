@@ -153,7 +153,7 @@ export default function Client(props) {
                 }}
                 data={query =>
                     new Promise((resolve, reject) => {
-                        let api = new Api('Client');
+                        let api = new Api('Client?');
                         api.Get(query.pageSize, query.page)
                             .then(result => {
                                 resolve({

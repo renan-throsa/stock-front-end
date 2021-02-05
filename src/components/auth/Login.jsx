@@ -20,9 +20,8 @@ export default function Login(props) {
                 setErrorMessages([]);
                 props.history.push('/')
             })
-            .catch(error => {
-                console.log(error)
-                setErrorMessages(["Não foi possível fazer login. Erro no servidor."]);
+            .catch(error => {                               
+                setErrorMessages([`Não foi possível fazer login. ${error}`]);
                 setIserror(true);
             })
     }

@@ -86,7 +86,7 @@ export default function Payments() {
             }}
             data={query =>
                 new Promise((resolve, reject) => {
-                    let api = new Api('Payment');
+                    let api = new Api('Payment?');
                     api.Get(query.pageSize, query.page)
                         .then(result => {
                             resolve({

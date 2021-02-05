@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
     text: {
         '& > *': {
             margin: theme.spacing(1),
-            width: '40ch',
+            width: '48ch',
         },
     },
     button: {
@@ -102,18 +102,21 @@ export function AutomaticTabPanel(props) {
                 }}
             />
             <TextField
+                fullWidth
                 disabled id="description"
                 value={description}
                 label="Descrição"
                 variant="outlined"
             />
             <TextField
+                fullWidth
                 disabled id="price"
                 value={price}
                 label="Preço"
                 variant="outlined"
             />
             <TextField
+                fullWidth
                 required type="number"
                 id="quantity"
                 label="Quantidade"

@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 import MaterialTable from 'material-table';
 
-
 const columns =
     [
         { title: "id", field: "productid", hidden: true },

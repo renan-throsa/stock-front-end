@@ -6,13 +6,13 @@ export default class Api {
     }
 
     Get(pageSize = 25, page = 0) {
-        let url = this.base_url + this.endpoint + '?'
+        let url = this.base_url + this.endpoint
         url += '&PageSize=' + pageSize;
-        url += '&PageNo=' + (page + 1);        
+        url += '&PageNo=' + (page + 1);
         return fetch(url)
             .then(response => this._isOk(response))
             .then(response => response.json())
-            .catch(err => { throw new Error(err) });
+            .catch(error => { throw error });
     }
 
     Login(data) {
@@ -31,7 +31,7 @@ export default class Api {
         return fetch(url, requestOptions)
             .then(response => this._isOk(response))
             .then(result => result.text())
-            .catch(error => { throw new Error(error) });
+            .catch(error => { throw error });
     }
 
     Post(data) {
@@ -49,7 +49,7 @@ export default class Api {
         })
             .then(res => this._isOk(res))
             .then(response => response.json())
-            .catch(err => { throw new Error(err) });
+            .catch(error => { throw error });
     }
 
     Put(data) {
@@ -67,14 +67,14 @@ export default class Api {
         })
             .then(res => this._isOk(res))
             .then(response => response.json())
-            .catch(err => { throw new Error(err) });
+            .catch(error => { throw error });
     }
 
-    _isOk(response) {          
+    _isOk(response) {
         if (response !== null && response.ok) {
             return response;
         } else {
-            throw new Error(response.statusText);
+            return response.json().then(text => {throw new Error(text.message)})
         }
     }
 }

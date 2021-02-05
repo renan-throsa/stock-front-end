@@ -34,23 +34,18 @@ const useStyles = makeStyles({
     },
 });
 
-const isOk = (response) => {
-    if (response !== null && response.ok) {
-        return response;
-    } else {
-        throw Error(response.status);
-    }
-}
+
 export default function Items(props) {
     const classes = useStyles();
     const [items, setItems] = React.useState([]);
 
     useEffect(() => {
+        
         /*The last line with an array is necessary or You'll get a
          * 'React Hook useEffect has a missing dependency: 'props.orderId'.
          * Either include it or remove the dependency array.'*/
-        let api = new Api(`Order/Item/${props.orderId}`);
-        api.GetList().then(data => { setItems(data) })
+        let api = new Api(`Order/${props.orderId}/Item`);
+        api.Get().then(data => { setItems(data) })
 
     }, [props.orderId]);
 

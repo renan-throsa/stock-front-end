@@ -10,7 +10,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems, secondaryListItems, headerListItems } from './ListItems';
+import { mainListItems, secondaryListItems } from './ListItems';
 import Container from '@material-ui/core/Container';
 import Switch from "@material-ui/core/Switch";
 import { orange, lightBlue, deepPurple, deepOrange } from "@material-ui/core/colors";
@@ -185,7 +185,7 @@ export default function Dashboard() {
                     </Toolbar>
                 </AppBar>
 
-                <Drawer variant="temporary" open={open}
+                <Drawer variant="permanent" open={open}
                     classes={{
                         paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
                     }}

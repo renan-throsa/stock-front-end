@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
-    },
+    },    
 }));
 
 export function TabItem(props) {
@@ -24,7 +24,7 @@ export function TabItem(props) {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static">
+            <AppBar position="relative">
                 <Tabs value={selectedTab} onChange={handleTabChange} aria-label="simple tabs example">
                     <Tab label="Busca automática" />
                     <Tab label="Busca manual" />
