@@ -52,6 +52,7 @@ export default function Sale(props) {
                 clientId: Number(clientId),
                 items: products.map(p => ({ 'ProductId': Number(p.productid), 'Quantity': Number(p.quantity) }))
             }
+                     
             new Api('Order').Post(order)
                 .then(result => {
                     setProducts([]);

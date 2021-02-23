@@ -1,26 +1,27 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Alert from '@material-ui/lab/Alert';
 import FormLogin from './FormLogin'
 import { Container, Typography } from "@material-ui/core";
 import 'fontsource-roboto';
 import Api from '../../services/Api'
-
+import { context } from '../../context/AuthContext'
 
 export default function Login(props) {
     const [errorMessages, setErrorMessages] = useState([]);
     const [iserror, setIserror] = useState(false);
+    const { authenticated, handleLogin } = useContext(context)
 
     const send = (data) => {
         let api = new Api('Account/Login');
 
         api.Login({ "Email": data.email, "Password": data.password })
             .then(result => {
-                localStorage.setItem('token', result);
+                handleLogin(result);
                 setIserror(false);
                 setErrorMessages([]);
                 props.history.push('/')
             })
-            .catch(error => {                               
+            .catch(error => {
                 setErrorMessages([`Não foi possível fazer login. ${error}`]);
                 setIserror(true);
             })

@@ -3,8 +3,8 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import OnClients from '../report/OnClients'
-import OnProducts from '../report/OnProducts'
+import OnClients from './OnClients'
+import OnProducts from './OnProducts'
 
 const useStyles = makeStyles((theme) => ({
     paper: {

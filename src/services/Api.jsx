@@ -1,8 +1,9 @@
 export default class Api {
-
+    //https://estoquapp.netlify.app/
     constructor(endpoint) {
         this.endpoint = endpoint;
-        this.base_url = "https://estoqapi.herokuapp.com/api/v2.0/";
+        this.base_url = "https://estoqapi.herokuapp.com/api/v2.0/"
+        //this.base_url = "https://localhost:5001/api/v2.0/";
     }
 
     Get(pageSize = 25, page = 0) {
@@ -41,7 +42,8 @@ export default class Api {
         myHeaders.append("Authorization", "Bearer " + localStorage['token']);
 
         var raw = JSON.stringify(data);
-
+        console.log(raw);   
+        
         return fetch(url, {
             method: 'Post',
             headers: myHeaders,
@@ -74,7 +76,7 @@ export default class Api {
         if (response !== null && response.ok) {
             return response;
         } else {
-            return response.json().then(text => {throw new Error(text.message)})
+            return response.json().then(text => { throw new Error(text.message) })
         }
     }
 }

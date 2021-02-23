@@ -51,7 +51,7 @@ export function ManualTabPanel(props) {
     const handleCategoryChange = (event) => {
         let categoryId = event.target.value;
         setcurrentCategory(categoryId)
-        new Api(`Category/${categoryId}/Product`).Get()
+        new Api(`Category/${categoryId}/Product?`).Get()
             .then(result => { setProducts(result.data) })
             .catch(err => console.log(err));
     };
@@ -77,7 +77,7 @@ export function ManualTabPanel(props) {
     }
 
     useEffect(() => {
-        new Api('Category').Get()
+        new Api('Category?').Get()
             .then(result => { setCategories(result.data) })
             .catch(err => console.log(err));
     }, [categories]);
