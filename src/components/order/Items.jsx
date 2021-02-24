@@ -44,7 +44,7 @@ export default function Items(props) {
         /*The last line with an array is necessary or You'll get a
          * 'React Hook useEffect has a missing dependency: 'props.orderId'.
          * Either include it or remove the dependency array.'*/
-        let api = new Api(`Order/${props.orderId}/Item`);
+        let api = new Api(`Order/${props.orderId}/Item?`);
         api.Get().then(data => { setItems(data) })
 
     }, [props.orderId]);

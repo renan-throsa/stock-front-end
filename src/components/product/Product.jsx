@@ -184,7 +184,7 @@ function Product() {
     const [iserror, setIserror] = useState(false);
 
     useEffect(() => {
-        new Api('Category').Get()
+        new Api('Category?').Get()
             .then(pagination => {
                 let entities = pagination.data.reduce((result, category) => {
                     result[category.id] = category.title;
@@ -194,7 +194,7 @@ function Product() {
                 setCategories(entities)
             }).catch(err => console.log(err));
 
-        new Api('Supplier').Get()
+        new Api('Supplier?').Get()
             .then(pagination => {
                 let entities = pagination.data.reduce((result, suppliers) => {
                     result[suppliers.id] = suppliers.name;
