@@ -6,7 +6,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
-import DashboardIcon from '@material-ui/icons/Dashboard';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { context } from '../context/AuthContext'
 
@@ -23,13 +22,7 @@ export default function NavBar() {
     const { authenticated } = useContext(context);
 
     return (
-        <MenuList className={classes.navDisplayFlex}>
-            <MenuItem button component={Link} to="/">
-                <ListItemIcon>
-                    <DashboardIcon />
-                </ListItemIcon>
-                <ListItemText primary="Estoque" />
-            </MenuItem>
+        <MenuList className={classes.navDisplayFlex}>        
             {authenticated ?
                 (<MenuItem button component={Link} to="/logout">
                     <ListItemIcon>

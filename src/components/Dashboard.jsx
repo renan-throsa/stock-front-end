@@ -9,6 +9,7 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import Typography from '@material-ui/core/Typography';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { mainListItems, secondaryListItems } from './ListItems';
 import Container from '@material-ui/core/Container';
@@ -16,7 +17,7 @@ import Switch from "@material-ui/core/Switch";
 import { orange, lightBlue, deepPurple, deepOrange } from "@material-ui/core/colors";
 import Routes from './Routes'
 import NavBar from './NavBar';
-
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -149,12 +150,19 @@ export default function Dashboard() {
                         >
                             <MenuIcon />
                         </IconButton>
+                        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+                            <Link to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+                                Estoque
+                            </Link>
+                        </Typography>
 
                         <NavBar />
 
+
                         <ThemeProvider theme={darkTheme}>
-                            <div> Tema </div>
-                            <Switch checked={darkState} onChange={handleThemeChange} />
+                            <Typography component="h2" color="inherit">
+                                Tema <Switch checked={darkState} onChange={handleThemeChange} />
+                            </Typography>
                         </ThemeProvider>
 
                     </Toolbar>

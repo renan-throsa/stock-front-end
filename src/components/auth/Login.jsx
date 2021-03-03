@@ -9,7 +9,7 @@ import { context } from '../../context/AuthContext'
 export default function Login(props) {
     const [errorMessages, setErrorMessages] = useState([]);
     const [iserror, setIserror] = useState(false);
-    const { authenticated, handleLogin } = useContext(context)
+    const { handleLogin } = useContext(context)
 
     const send = (data) => {
         let api = new Api('Account/Login');
