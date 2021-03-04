@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import MaterialTable from 'material-table';
 import Api from '../../services/Api'
-
+import Localization from "../Localization";
 
 const columns =
     [
@@ -17,36 +17,6 @@ const columns =
         },
     ];
 
-const localization = {
-    body: {
-        emptyDataSourceMessage: 'Nenhum registro para exibir',
-        addTooltip: 'Adicionar',
-        deleteTooltip: 'Apagar',
-        editTooltip: 'Editar',
-        editRow: {
-            deleteText: 'Voulez-vous supprimer cette ligne?',
-            cancelTooltip: 'Cancelar',
-            saveTooltip: 'Salvar'
-        }
-    },
-    toolbar: {
-        searchTooltip: 'Pesquisar',
-        searchPlaceholder: 'Pesquisar',
-        exportTitle: 'Exportar',
-        exportAriaLabel: 'Exportar',
-    },
-    pagination: {
-        labelRowsSelect: 'linhas',
-        labelDisplayedRows: '{count} de {from}-{to}',
-        firstTooltip: 'Primeira página',
-        previousTooltip: 'Página anterior',
-        nextTooltip: 'Próxima página',
-        lastTooltip: 'Última página'
-    },
-    header: {
-        actions: 'Ações'
-    }
-}
 
 const operations = (query, data) => {
     //Searching
@@ -76,7 +46,7 @@ export default function Payments() {
         <MaterialTable
             title="Pagamentos"
             columns={columns}
-            localization={localization}
+            localization={Localization}
             options={{
                 exportButton: true,
                 headerStyle: {

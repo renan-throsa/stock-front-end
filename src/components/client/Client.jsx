@@ -4,6 +4,7 @@ import Alert from '@material-ui/lab/Alert';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import PaymentIcon from '@material-ui/icons/Payment';
 import Api from '../../services/Api'
+import Localization from "../Localization";
 import { isPhoneNumberValid, isNameValid, isAddressValid } from '../../validators/Validator'
 
 
@@ -36,36 +37,6 @@ const columns =
         },
     ];
 
-const localization = {
-    body: {
-        emptyDataSourceMessage: 'Nenhum registro para exibir',
-        addTooltip: 'Adicionar',
-        deleteTooltip: 'Apagar',
-        editTooltip: 'Editar',
-        editRow: {
-            deleteText: 'Voulez-vous supprimer cette ligne?',
-            cancelTooltip: 'Cancelar',
-            saveTooltip: 'Salvar'
-        }
-    },
-    toolbar: {
-        searchTooltip: 'Pesquisar',
-        searchPlaceholder: 'Pesquisar',
-        exportTitle: 'Exportar',
-        exportAriaLabel: 'Exportar',
-    },
-    pagination: {
-        labelRowsSelect: 'linhas',
-        labelDisplayedRows: '{count} de {from}-{to}',
-        firstTooltip: 'Primeira página',
-        previousTooltip: 'Página anterior',
-        nextTooltip: 'Próxima página',
-        lastTooltip: 'Última página'
-    },
-    header: {
-        actions: 'Ações'
-    }
-}
 const operations = (query, data) => {
     //Searching
     data = data.filter(p =>
@@ -143,7 +114,7 @@ export default function Client(props) {
             <MaterialTable
                 title="Clientes"
                 columns={columns}
-                localization={localization}
+                localization={Localization}
                 options={{
                     exportButton: true,
                     headerStyle: {

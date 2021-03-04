@@ -3,7 +3,7 @@ import MaterialTable from 'material-table';
 import Alert from '@material-ui/lab/Alert';
 import Api from '../../services/Api'
 import { isTitleValid } from '../../validators/Validator'
-
+import Localization from "../Localization";
 
 
 function renderProductsTable(handleRowAdd, handleRowUpdate, iserror, errorMessages) {
@@ -22,54 +22,6 @@ function renderProductsTable(handleRowAdd, handleRowUpdate, iserror, errorMessag
             },
         ];
 
-    const localization = {
-        header: {
-            actions: 'Ações'
-        },
-        grouping: {
-            placeholder: "Tirer l'entête ...",
-            groupedBy: 'Agroupar por:'
-        },
-        body: {
-            emptyDataSourceMessage: 'Nenhum registro para exibir',
-            addTooltip: 'Adicionar',
-            deleteTooltip: 'Apagar',
-            editTooltip: 'Editar',
-            filterRow: {
-                filterTooltip: 'Filtrar'
-            },
-            editRow: {
-                deleteText: 'Voulez-vous supprimer cette ligne?',
-                cancelTooltip: 'Cancelar',
-                saveTooltip: 'Salvar'
-            }
-        },
-        toolbar: {
-            addRemoveColumns: 'Ajouter ou supprimer des colonnes',
-            nRowsSelected: '{0} Linha(s) selecionada(s)',
-            showColumnsTitle: 'Ver as colunas',
-            showColumnsAriaLabel: 'Ver as colunas',
-            searchTooltip: 'Pesquisar',
-            searchPlaceholder: 'Pesquisar',
-            exportTitle: 'Exportar',
-            exportAriaLabel: 'Exportar',
-
-        },
-        pagination: {
-            labelDisplayedRows: '{from}-{to} de {count}',
-            labelRowsSelect: 'Linhas',
-            labelRowsPerPage: 'Linhas por página:',
-            firstAriaLabel: 'Primeira página',
-            firstTooltip: 'Primeira página',
-            previousAriaLabel: 'Página anterior',
-            previousTooltip: 'Página anterior',
-            nextAriaLabel: 'Próxima página',
-            nextTooltip: 'Próxima página',
-            lastAriaLabel: 'Última página',
-            lastTooltip: 'Última página'
-        }
-
-    }
 
     const operations = (query, data) => {
         //Searching
@@ -106,7 +58,7 @@ function renderProductsTable(handleRowAdd, handleRowUpdate, iserror, errorMessag
             <MaterialTable
                 title="Categorias"
                 columns={columns}
-                localization={localization}
+                localization={Localization}
                 options={{
                     sorting: true,
                     exportButton: true,
