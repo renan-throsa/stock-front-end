@@ -4,4 +4,4 @@ command = "npm run build"
 publish = "./build/"
 
 [build.environment]
-APP_API_URL = "https://estoqapi.herokuapp.com/api/v2.0/"
+REACT_APP_API_URL = "https://estoqapi.herokuapp.com/api/v2.0/"
