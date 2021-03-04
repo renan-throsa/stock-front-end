@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import MaterialTable from 'material-table';
 import PaymentIcon from '@material-ui/icons/Payment';
 import Localization from "../Localization";

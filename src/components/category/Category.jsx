@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import MaterialTable from 'material-table';
 import Alert from '@material-ui/lab/Alert';
 import Api from '../../services/Api'

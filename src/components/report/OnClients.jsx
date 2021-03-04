@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import MaterialTable from 'material-table';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import PaymentIcon from '@material-ui/icons/Payment';

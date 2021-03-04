@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import MaterialTable from 'material-table';
 import Api from '../../services/Api'
 
