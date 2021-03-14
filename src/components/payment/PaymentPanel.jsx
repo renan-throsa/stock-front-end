@@ -1,24 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Alert from '@material-ui/lab/Alert';
 import Api from '../../services/Api'
-
-const useInputStyles = makeStyles((theme) => ({
-    text: {
-        '& > *': {
-            margin: theme.spacing(1),
-            width: '40ch',
-        },
-    },
-    button: {
-        '& > *': {
-            margin: theme.spacing(1),
-        },
-    },
-}));
+import { useInputStyles } from './styles'
 
 
 export default function PaymentPanel() {

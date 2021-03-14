@@ -4,7 +4,7 @@ import FormLogin from './FormLogin'
 import { Container, Typography } from "@material-ui/core";
 import 'fontsource-roboto';
 import Api from '../../services/Api'
-import { context } from '../../context/AuthContext'
+import { context } from '../../App'
 
 export default function Login(props) {
     const [errorMessages, setErrorMessages] = useState([]);

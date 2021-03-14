@@ -7,7 +7,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { context } from '../context/AuthContext'
+import { context } from '../../App'
 
 const useStyles = makeStyles(() => ({
     navDisplayFlex: {

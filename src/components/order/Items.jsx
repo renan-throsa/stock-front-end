@@ -1,46 +1,22 @@
-import React, { useEffect } from 'react';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import React, { useState, useEffect } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Api from '../../services/Api'
 
-const StyledTableCell = withStyles((theme) => ({
-    head: {
-        backgroundColor: '#01579b',
-        color: '#FFF'
-    },
-    body: {
-        fontSize: 14,
-    },
-}))(TableCell);
+import { StyledTableCell, StyledTableRow, useStyles } from './styles'
 
-
-const StyledTableRow = withStyles((theme) => ({
-    root: {
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.action.hover,
-        },
-    },
-}))(TableRow);
-
-const useStyles = makeStyles({
-    table: {
-        minWidth: 650,
-    },
-});
 
 
 export default function Items(props) {
     const classes = useStyles();
-    const [items, setItems] = React.useState([]);
+    const [items, setItems] = useState([]);
 
     useEffect(() => {
-        
+
         /*The last line with an array is necessary or You'll get a
          * 'React Hook useEffect has a missing dependency: 'props.orderId'.
          * Either include it or remove the dependency array.'*/

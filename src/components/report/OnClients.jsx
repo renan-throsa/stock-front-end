@@ -3,6 +3,7 @@ import MaterialTable from 'material-table';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import PaymentIcon from '@material-ui/icons/Payment';
 import Api from '../../services/Api'
+import Loacalization from '../Localization'
 
 export default function OnClients(props) {
     const columns =
@@ -34,54 +35,6 @@ export default function OnClients(props) {
             },
         ];
 
-    const localization = {
-        header: {
-            actions: 'Ações'
-        },
-        grouping: {
-            placeholder: "Tirer l'entête ...",
-            groupedBy: 'Agroupar por:'
-        },
-        body: {
-            emptyDataSourceMessage: 'Nenhum registro para exibir',
-            addTooltip: 'Adicionar',
-            deleteTooltip: 'Apagar',
-            editTooltip: 'Editar',
-            filterRow: {
-                filterTooltip: 'Filtrar'
-            },
-            editRow: {
-                deleteText: 'Voulez-vous supprimer cette ligne?',
-                cancelTooltip: 'Cancelar',
-                saveTooltip: 'Salvar'
-            }
-        },
-        toolbar: {
-            addRemoveColumns: 'Ajouter ou supprimer des colonnes',
-            nRowsSelected: '{0} Linha(s) selecionada(s)',
-            showColumnsTitle: 'Ver as colunas',
-            showColumnsAriaLabel: 'Ver as colunas',
-            searchTooltip: 'Pesquisar',
-            searchPlaceholder: 'Pesquisar',
-            exportTitle: 'Exportar',
-            exportAriaLabel: 'Exportar',
-
-        },
-        pagination: {
-            labelDisplayedRows: '{from}-{to} de {count}',
-            labelRowsSelect: 'Linhas',
-            labelRowsPerPage: 'Linhas por página:',
-            firstAriaLabel: 'Primeira página',
-            firstTooltip: 'Primeira página',
-            previousAriaLabel: 'Página anterior',
-            previousTooltip: 'Página anterior',
-            nextAriaLabel: 'Próxima página',
-            nextTooltip: 'Próxima página',
-            lastAriaLabel: 'Última página',
-            lastTooltip: 'Última página'
-        }
-
-    }
 
     const operations = (query, data) => {
         //Searching
@@ -108,11 +61,11 @@ export default function OnClients(props) {
     };
 
     return (
-
+        
         <MaterialTable
             title="Clientes inativos"
             columns={columns}
-            localization={localization}
+            localization={Loacalization}
             options={{
                 sorting: true,
                 exportButton: true,
@@ -125,7 +78,7 @@ export default function OnClients(props) {
                 new Promise((resolve, reject) => {
                     let api = new Api('Client?Status=0');
                     api.Get(query.pageSize, query.page)
-                        .then(result => {                            
+                        .then(result => {
                             resolve({
                                 data: operations(query, result.data),
                                 page: result.page - 1,
